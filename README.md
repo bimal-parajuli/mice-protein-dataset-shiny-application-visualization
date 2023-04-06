@@ -6,10 +6,10 @@ The application has been deployed to shinyapps.io and is live right now.
 
 To view, 
 - click on the following URL:
-([Shiny Mice Proten Application](https://github.com/bimal-parajuli/mice-protein-dataset-shiny-application-visualization/blob/main/app.R))
+([Shiny Mice Proten Application](https://bimalparajuli.shinyapps.io/Shiny_Dashboard_Protein_Dataset/))
 
 Or, 
 - open the following hyperlink in a browser: <br>
-https://github.com/bimal-parajuli/mice-protein-dataset-shiny-application-visualization/blob/main/app.R
+https://bimalparajuli.shinyapps.io/Shiny_Dashboard_Protein_Dataset/
 
 
