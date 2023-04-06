@@ -1,5 +1,11 @@
 
 
+
+
+
+
+
+
 library(shiny)
 library(ggplot2)
 library(gridExtra)
@@ -106,9 +112,12 @@ ui <- fluidPage(
   
   br(),
   br(),
+  
+  titlePanel(h2("Histograms Visualization ",
+                align = "center")),
   h3("Select the Attributes and parameters to view histograms:"),
   
-  # Sidebar with a slider input for number of bins
+  # For Histograms.
   sidebarLayout(
     sidebarPanel(
       h3("For First histogram, "),
@@ -189,8 +198,49 @@ ui <- fluidPage(
       plotOutput("distPlot4")
       
     )
-  )
+  ),
+  
+  
+  
+  
+  # For Scatter Plots.
+  
+  
+  titlePanel(h2("Scatter Plots Visualization:", align = "center")),
+  h3("Select the attributes for Scatter plot: "),
+  sidebarLayout(
+    sidebarPanel(
+      h4("For the first scatter plot: "),
+      
+      selectInput("AttributeX1", "Select X attribute:", choices = numeric_attributes_vec, "ITSN1_N"),
+      selectInput("AttributeY1", "Select Y attribute:", choices = numeric_attributes_vec, "BDNF_N"),
+      selectInput("AttributeColor1", "Color by: ", choices = categorical_attributes_vec, "class"),
+      
+      br(),
+      br(),
+      br(),
+      br(),
+      
+      h4("For the Second scatter plot: "),
+      
+      selectInput("AttributeX2", "Select X attribute:", choices = numeric_attributes_vec, "pCASP9_N"),
+      selectInput("AttributeY2", "Select Y attribute:", choices = numeric_attributes_vec, "Ubiquitin_N"),
+      selectInput("AttributeColor2", "Color by: ", choices = categorical_attributes_vec, "Behavior")
+      
+      
+      
+      
+    ),
+    mainPanel(plotOutput("scatterPlot1"),
+              plotOutput("scatterPlot2"))
+  ),
+  
+  
+  
+  
 )
+
+
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
@@ -294,6 +344,67 @@ server <- function(input, output) {
       ))
     
     hist_plot_4
+    
+  })
+  
+  
+  output$scatterPlot1 <- renderPlot({
+    scatterData <- dataset_mouse %>%
+      select(input$AttributeX1,
+             input$AttributeY1,
+             input$AttributeColor1) %>%
+      na.omit()
+    
+    scatter_plot1 <- ggplot(scatterData,
+                            aes(
+                              x = .data[[input$AttributeX1]],
+                              y = .data[[input$AttributeY1]],
+                              color = .data[[input$AttributeColor1]]
+                            )) +
+      geom_point() +
+      scale_x_log10() +
+      scale_y_log10() +
+      ggtitle(
+        paste(
+          "Scatter plot of ",
+          input$AttributeX1,
+          " vs ",
+          input$AttributeY1,
+          " by Bimal Parajuli"
+        )
+      )
+    
+    scatter_plot1
+    
+  })
+  
+  output$scatterPlot2 <- renderPlot({
+    scatterData <- dataset_mouse %>%
+      select(input$AttributeX2,
+             input$AttributeY2,
+             input$AttributeColor2) %>%
+      na.omit()
+    
+    scatter_plot2 <- ggplot(scatterData,
+                            aes(
+                              x = .data[[input$AttributeX2]],
+                              y = .data[[input$AttributeY2]],
+                              color = .data[[input$AttributeColor2]]
+                            )) +
+      geom_point() +
+      scale_x_log10() +
+      scale_y_log10() +
+      ggtitle(
+        paste(
+          "Scatter plot of ",
+          input$AttributeX2,
+          " vs ",
+          input$AttributeY2,
+          " by Bimal Parajuli"
+        )
+      )
+    
+    scatter_plot2
     
   })
 }
