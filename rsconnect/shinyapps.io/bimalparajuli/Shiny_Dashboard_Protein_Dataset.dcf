@@ -5,9 +5,9 @@ account: bimalparajuli
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8783296
-bundleId: 7057821
+bundleId: 7058518
 url: https://bimalparajuli.shinyapps.io/Shiny_Dashboard_Protein_Dataset/
-when: 1680796242.48705
-lastSyncTime: 1680796242.48706
+when: 1680806087.00353
+lastSyncTime: 1680806087.00355
 asMultiple: FALSE
 asStatic: FALSE

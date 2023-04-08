@@ -1,16 +1,9 @@
 
-
-
-
-
-
-
-
 library(shiny)
 library(ggplot2)
 library(gridExtra)
 library(dplyr)
-
+library(plotrix)
 
 dataset_mouse <- read.csv("Data_Cortex_Nuclear.csv")
 
@@ -236,6 +229,35 @@ ui <- fluidPage(
   ),
   
   
+  # For pie charts
+  titlePanel(h2("Pie chart Visualization:", align = "center")),
+  h3("Select the attributes for Pie chart: "),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("AttributePie1", "Select an Attribute: ", choices = categorical_attributes_vec, "class"),
+      sliderInput(
+        "explode",
+        "Pls. Select Explode Size",
+        min = 0,
+        max = 1,
+        value = 0.25,
+        step = 0.01
+      ),
+      sliderInput(
+        "angle",
+        "Pls. Select viewing angle: x for (pi/x)",
+        min = 1,
+        max = 10,
+        value = 4,
+        step = 1
+      ),
+      
+      
+      
+      
+    ),
+    mainPanel(plotOutput("PieChart1"))
+  ),
   
   
 )
@@ -406,6 +428,28 @@ server <- function(input, output) {
     
     scatter_plot2
     
+  })
+  
+  output$PieChart1 <- renderPlot({
+    pie_data <- select(dataset_mouse, input$AttributePie1)
+    pie_data <- na.omit(pie_data)
+    aaaaa <-
+      pie_data %>% group_by(.data[[input$AttributePie1]]) %>% count()
+    x_123 <- aaaaa$n
+    y_123 <- aaaaa$.data[[input$AttributePie1]]
+    pie3D(
+      x = x_123,
+      labels = y_123,
+      shade = 0.5,
+      border = "white",
+      theta = pi / input$angle,
+      main = paste(
+        "Pie Chart of ",
+        input$AttributePie1,
+        " atribute by Bimal Parajuli (20BDS0405)"
+      ),
+      explode = input$explode
+    )
   })
 }
 
